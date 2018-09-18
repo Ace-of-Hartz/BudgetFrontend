@@ -1,0 +1,31 @@
+.logo-wrapper {
+    display: inline-block;
+    height: 100%;
+    width: auto;
+
+    .logo-image-wrapper {
+        display: inline-block;   
+        height: 100%;
+        width: auto; 
+        margin-right: 10px;
+        background-color: white;
+        border-radius: 50%;
+
+        .logo {
+            display: inline-block;    
+            height: 100%;
+            width: auto;
+        }
+    }
+
+    .logo-text{
+        position: relative;
+        display: inline-block;
+        top: -40%;
+    }
+}
+
+.buttons-wrapper {
+    margin-left: 2em;
+}
+
