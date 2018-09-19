@@ -1,2 +1,6 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 //@import "styles/material-theme.scss";
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}

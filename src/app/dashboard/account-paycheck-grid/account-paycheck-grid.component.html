@@ -1,0 +1,12 @@
+<div class="grid-wrapper">
+  <div class="accounts-header">
+    <div class="null-block"></div>
+    <div *ngFor="let account of accounts" class="account">{{account.name}}</div>
+    <div class="scroll-bar-block"></div>
+  </div>
+  <div class="body-wrapper">
+    <div class="paychecks-wrapper">
+      <div *ngFor="let paycheck of paychecks" class="paycheck">$ {{paycheck.money}}</div>
+    </div>
+  </div>
+</div>

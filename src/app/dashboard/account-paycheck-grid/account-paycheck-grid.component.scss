@@ -1,0 +1,41 @@
+$account-header-height: 3rem;
+$paycheck-column-width: 15rem;
+
+$header-border: 2px solid black;
+
+.grid-wrapper {
+    background-color: white;
+    height: 100%;
+    .accounts-header {
+        display: flex;
+        height: $account-header-height;
+        border-bottom: $header-border;
+        .account {
+            padding: 1em;
+            flex-grow: 1;
+        }
+        .null-block {
+            width: $paycheck-column-width;
+            border-right: $header-border;
+            background-color: inherit;
+        }
+        .scroll-bar-block{
+            width: 17px;
+            background-color: hsl(0, 0%, 95%);
+        }
+    }
+    .body-wrapper{
+        display: inline-block;
+        width: 100%;
+        height: calc(100% - #{$account-header-height});
+        overflow-y: scroll;
+        .paychecks-wrapper {
+            width: $paycheck-column-width;
+            height: 100%;
+            border-right: $header-border;
+            .paycheck {
+                padding: 1em;
+            }
+        }
+    }
+}
