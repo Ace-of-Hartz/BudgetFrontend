@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { BgtAccount } from 'src/app/core/models/Account.model';
 import { BgtPaycheck } from 'src/app/core/models/paycheck.model';
+import { AccountPaycheckGridService } from './account-paycheck-grid.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/internal/operators/map';
 
 @Component({
   selector: 'bgt-account-paycheck-grid',
@@ -9,26 +12,15 @@ import { BgtPaycheck } from 'src/app/core/models/paycheck.model';
 })
 export class AccountPaycheckGridComponent implements OnInit {
 
-  @Input() accounts: BgtAccount[] = [];
-  @Input() paychecks: BgtPaycheck[] = [];
+  @ViewChild('table') table: ElementRef;
 
-  constructor() { }
+  accounts: Observable<BgtAccount[]>;
+  paychecks: Observable<BgtPaycheck[]>;
+
+  constructor(private accountPaycheckGridService: AccountPaycheckGridService) { }
 
   ngOnInit() {
-    const newAccounts: BgtAccount[] = [];
-    const newPaychecks: BgtPaycheck[] = [];
-    for(let i = 0; i < 10; ++i) {
-      newAccounts.push(<BgtAccount>{
-        id : i,
-        name: `Account ${i}`
-      });
-      newPaychecks.push(<BgtPaycheck>{
-        id: i, 
-        money: Number((Math.random()*1000000).toFixed(2))
-      });
-    }
-    this.accounts = newAccounts;
-    this.paychecks = newPaychecks;
+    this.accounts = this.accountPaycheckGridService.getAccounts();
+    this.paychecks = this.accountPaycheckGridService.getPaychecks();
   }
-
 }

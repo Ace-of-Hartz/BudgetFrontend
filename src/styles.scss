@@ -2,5 +2,10 @@
 //@import "styles/material-theme.scss";
 
 *, *:before, *:after {
+    font-family: Arial, Helvetica, sans-serif;
     box-sizing: border-box;
+}
+
+.fa, .fa:before, .fa:after {
+    font-family: "Font Awesome 5 Free" !important;
 }

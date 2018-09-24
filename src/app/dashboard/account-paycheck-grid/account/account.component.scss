@@ -1,0 +1,14 @@
+.account-wrapper {
+    padding: .75em;
+    background-color: hsl(120, 100%, 75%);
+    .name {
+        padding: .25em;
+        font-weight: bold;
+    }
+    .money {
+        padding: .25em;
+    }
+}
+.low-funds {
+    background-color: hsl(0, 100%, 75%);
+}

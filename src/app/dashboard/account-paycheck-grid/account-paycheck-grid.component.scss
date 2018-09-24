@@ -1,18 +1,24 @@
-$account-header-height: 3rem;
+$account-header-height: 5rem;
 $paycheck-column-width: 15rem;
+$account-column-width: 10rem;
 
+$body-border: 1px solid black;
 $header-border: 2px solid black;
 
 .grid-wrapper {
     background-color: white;
-    height: 100%;
+    // height: 100%;
+    // width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
     .accounts-header {
-        display: flex;
-        height: $account-header-height;
+        // height: $account-header-height;
         border-bottom: $header-border;
+        // display: block;
         .account {
-            padding: 1em;
-            flex-grow: 1;
+            text-align: center;
+            border-right: $body-border;
+            white-space: nowrap;
         }
         .null-block {
             width: $paycheck-column-width;
@@ -25,16 +31,20 @@ $header-border: 2px solid black;
         }
     }
     .body-wrapper{
-        display: inline-block;
-        width: 100%;
-        height: calc(100% - #{$account-header-height});
-        overflow-y: scroll;
+        // height: 100%;
+        // width: 100%;
+        // display: block;
+        // overflow-y: scroll;
         .paychecks-wrapper {
-            width: $paycheck-column-width;
-            height: 100%;
-            border-right: $header-border;
             .paycheck {
                 padding: 1em;
+                width: $paycheck-column-width;
+                border-right: $header-border;
+                border-bottom: $body-border;
+            }
+            .account-paycheck-wrapper {
+                padding: .75em;
+                border: $body-border;
             }
         }
     }

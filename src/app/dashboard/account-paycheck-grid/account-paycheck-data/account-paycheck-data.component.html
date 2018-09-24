@@ -1,0 +1,8 @@
+<table class="paycheck-wrapper">
+    <tr class="money-wrapper">
+      <td class="money">{{paycheckDisplay?.alocatedMoney | currency}}</td>
+    </tr>
+    <tr class="paycheck-percent-wrapper">
+      <td class="paycheck-percent">{{paycheckDisplay?.alocatedPercent | percent: '1.2'}}</td>
+    </tr>
+  </table>

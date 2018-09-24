@@ -1,0 +1,4 @@
+<div class="account-wrapper" [class.low-funds]="(account.money < 5)">
+  <div class="name">{{account.name}}</div>
+  <div class="money">{{account.money | currency}}</div>
+</div>
