@@ -17,11 +17,17 @@ export class PaycheckComponent implements OnInit {
 
   @Input()
   set paycheck(paycheck: BgtPaycheck) {
-    this.paycheckDisplay = <PaycheckDisplay>{
-      paydate: paycheck.payDate.toLocaleDateString(),
-      money: (paycheck.money || 0).toFixed(2),
-      unallocatedMoney: (paycheck.unallocatedMoney || 0).toFixed(2)
-    };
+    console.log(paycheck);
+    if (paycheck) {
+      this.paycheckDisplay = <PaycheckDisplay>{
+        paydate: new Date(paycheck.payDate).toLocaleDateString(),
+        money: (paycheck.money || 0).toFixed(2),
+        unallocatedMoney: (paycheck.unallocatedMoney || 0).toFixed(2)
+      };
+    }
+    else{
+      this.paycheckDisplay = null;
+    }
   }
 
   paycheckDisplay: PaycheckDisplay;

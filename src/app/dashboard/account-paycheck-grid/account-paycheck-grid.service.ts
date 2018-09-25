@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { map } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { BgtAccount } from "src/app/core/models/Account.model";
 import { BgtAccountLedger } from "src/app/core/models/AccountLedger.model";
 import { BgtPaycheck } from "src/app/core/models/paycheck.model";
+import { PaycheckRepository } from "src/app/core/repositories/paycheck-repository.repository";
 
 @Injectable()
 export class AccountPaycheckGridService {
@@ -13,21 +13,11 @@ export class AccountPaycheckGridService {
     private accounts: BehaviorSubject<BgtAccount[]> = new BehaviorSubject<BgtAccount[]>([]);
     private ledgerEntries: BehaviorSubject<BgtAccountLedger[]> = new BehaviorSubject<BgtAccountLedger[]>([]);
 
-    constructor() {
+    constructor(private paycheckRepository: PaycheckRepository) {
         const paychecks: BgtPaycheck[] = [];
         const accounts: BgtAccount[] = [];
         const ledgerEntries: BgtAccountLedger[] = [];
 
-        for (let i = 0; i < 10; ++i) {
-            const date = new Date();
-            date.setDate(date.getDate() - i);
-            paychecks.push(<BgtPaycheck>{
-                id: i,
-                payDate: date,
-                money: (Math.random() * 10000),
-                unallocatedMoney: (Math.random() * 100)
-            });
-        }
         for (let i = 0; i < 20; ++i) {
             accounts.push(<BgtAccount>{
                 id: i,
@@ -52,6 +42,10 @@ export class AccountPaycheckGridService {
         this.paychecks.next(paychecks);
         this.accounts.next(accounts);
         this.ledgerEntries.next(ledgerEntries);
+
+        this.paycheckRepository.getPaychecks().subscribe(p => {
+            this.paychecks.next(p);
+        });
     }
 
     getPaychecks(): Observable<BgtPaycheck[]> {

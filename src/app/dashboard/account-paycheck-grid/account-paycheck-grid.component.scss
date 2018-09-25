@@ -45,6 +45,10 @@ $header-border: 2px solid black;
             .account-paycheck-wrapper {
                 padding: .75em;
                 border: $body-border;
+                &:hover {
+                    box-shadow: 0 0 2px 4px hsl(56, 75%, 50%);
+                    cursor: pointer;
+                }
             }
         }
     }
