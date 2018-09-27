@@ -3,11 +3,11 @@
     <tr class="accounts-header">
       <th class="null-block">
         <!-- Yea, yea, hidden functionality is a bad idea. But it looks better ;) -->
-        <button mat-button class="add-btn">
+        <button mat-button class="add-btn" (click)="showPaycheck()">
           <span class="btn-icon fa fa-plus"></span>
           <span class="btn-label"> Paycheck</span>
         </button>
-        <button mat-button class="add-btn">
+        <button mat-button class="add-btn" (click)="showAccount()">
           <span class="btn-icon fa fa-plus"></span>
           <span class="btn-label"> Account</span>
         </button>
