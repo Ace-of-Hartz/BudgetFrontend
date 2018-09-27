@@ -5,6 +5,8 @@ $account-column-width: 10rem;
 $body-border: 1px solid black;
 $header-border: 2px solid black;
 
+$data-box-shadow:  0 0 2px 4px hsl(56, 75%, 50%);
+
 .grid-wrapper {
     background-color: white;
     // height: 100%;
@@ -24,6 +26,26 @@ $header-border: 2px solid black;
             width: $paycheck-column-width;
             border-right: $header-border;
             background-color: inherit;
+            .add-btn {
+                opacity: .25;
+                transition: opacity .4s;
+                .btn-label,
+                .btn-icon {
+                    display: inline-block;
+                    overflow: hidden;
+                    width: 0;
+                    transition: width .5s;
+                }
+                &:hover {
+                    opacity: 1;
+                    .btn-label {
+                        width: 5em;
+                    }
+                    .btn-icon {
+                        width: 1.25em;
+                    }
+                }
+            }
         }
         .scroll-bar-block{
             width: 17px;
@@ -46,7 +68,7 @@ $header-border: 2px solid black;
                 padding: .75em;
                 border: $body-border;
                 &:hover {
-                    box-shadow: 0 0 2px 4px hsl(56, 75%, 50%);
+                    box-shadow: $data-box-shadow;
                     cursor: pointer;
                 }
             }

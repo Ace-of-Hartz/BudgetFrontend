@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BgtAccount } from '../../../core/models/Account.model';
 
 @Component({
@@ -6,13 +6,12 @@ import { BgtAccount } from '../../../core/models/Account.model';
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss']
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent {
 
   @Input() account : BgtAccount;
+  @Output() onClick: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor() { }
-
-  ngOnInit() {
+  click(): void {
+    this.onClick.emit(this.account.id);
   }
-
 }

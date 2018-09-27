@@ -1,4 +1,5 @@
 .paycheck-wrapper {
+    cursor: pointer;
     .date {
         font-weight: bold;
     }
@@ -7,5 +8,13 @@
     }
     .unallocated-money {
         font-weight: bold;
+    }
+    .edit-icon {
+        display: none;
+    }
+    &:hover {
+        .edit-icon {
+            display: inline;
+        }
     }
 }

@@ -1,4 +1,5 @@
-<table class="data-wrapper">
+<div class="data-wrapper" matTooltip="Edit Transactions" matTooltipPosition="below" matTooltipShowDelay="500">
+  <table>
     <tr class="money-wrapper">
       <td class="money">{{paycheckDisplay?.alocatedMoney | currency}}</td>
     </tr>
@@ -6,3 +7,4 @@
       <td class="paycheck-percent">{{paycheckDisplay?.alocatedPercent | percent: '1.2'}}</td>
     </tr>
   </table>
+</div>

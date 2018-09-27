@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BgtRoutesModule } from './bgt-routes.module';
 import { BudgetComponent } from './bgt.component';
-import { NavBarModule } from './core/nav-bar/nav-bar.module';
+import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 
 
@@ -15,7 +14,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NavBarModule,
+    CoreModule,
     BgtRoutesModule,
     DashboardModule,
   ],

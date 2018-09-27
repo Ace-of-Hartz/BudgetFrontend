@@ -1,9 +1,19 @@
 <table class="grid-wrapper" #table>
   <thead>
-    <tr  class="accounts-header">
-      <th class="null-block"></th>
+    <tr class="accounts-header">
+      <th class="null-block">
+        <!-- Yea, yea, hidden functionality is a bad idea. But it looks better ;) -->
+        <button mat-button class="add-btn">
+          <span class="btn-icon fa fa-plus"></span>
+          <span class="btn-label"> Paycheck</span>
+        </button>
+        <button mat-button class="add-btn">
+          <span class="btn-icon fa fa-plus"></span>
+          <span class="btn-label"> Account</span>
+        </button>
+      </th>
       <th *ngFor="let account of (accounts | async)" class="account">
-        <bgt-account [account]="account"></bgt-account>
+        <bgt-account [account]="account" (onClick)="showAccount($event)"></bgt-account>
       </th>
       <th class="scroll-bar-block"></th>
     </tr>
@@ -11,9 +21,9 @@
   <tbody class="body-wrapper">
     <tr class="paychecks-wrapper" *ngFor="let paycheck of (paychecks | async)">
       <td class="paycheck">
-        <bgt-paycheck [paycheck]="paycheck"></bgt-paycheck>
+        <bgt-paycheck [paycheck]="paycheck" (onClick)="showPaycheck($event)"></bgt-paycheck>
       </td>
-      <td *ngFor="let account of (accounts | async)" class="account-paycheck-wrapper"> 
+      <td *ngFor="let account of (accounts | async)" class="account-paycheck-wrapper" (click)="showTransactions(account.id, paycheck.id)">
         <bgt-account-paycheck-data [account]="account" [paycheck]="paycheck"></bgt-account-paycheck-data>
       </td>
     </tr>

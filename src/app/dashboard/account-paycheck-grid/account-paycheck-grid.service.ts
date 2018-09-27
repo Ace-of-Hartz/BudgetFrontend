@@ -4,7 +4,8 @@ import { map } from 'rxjs/operators';
 import { BgtAccount } from "src/app/core/models/Account.model";
 import { BgtAccountLedger } from "src/app/core/models/AccountLedger.model";
 import { BgtPaycheck } from "src/app/core/models/paycheck.model";
-import { PaycheckRepository } from "src/app/core/repositories/paycheck-repository.repository";
+import { PaycheckRepository } from "../../core/repositories/paycheck.repository";
+import { AccountRepository } from "../../core/repositories/account.repository";
 
 @Injectable()
 export class AccountPaycheckGridService {
@@ -13,39 +14,16 @@ export class AccountPaycheckGridService {
     private accounts: BehaviorSubject<BgtAccount[]> = new BehaviorSubject<BgtAccount[]>([]);
     private ledgerEntries: BehaviorSubject<BgtAccountLedger[]> = new BehaviorSubject<BgtAccountLedger[]>([]);
 
-    constructor(private paycheckRepository: PaycheckRepository) {
-        const paychecks: BgtPaycheck[] = [];
-        const accounts: BgtAccount[] = [];
-        const ledgerEntries: BgtAccountLedger[] = [];
+    constructor(
+        private paycheckRepository: PaycheckRepository,
+        private accountsRepository: AccountRepository,
+    ) {
+        this.refresh();
+    }
 
-        for (let i = 0; i < 20; ++i) {
-            accounts.push(<BgtAccount>{
-                id: i,
-                money: (Math.random() * 100000),
-                name: `Account ${i}`
-            });
-        }
-        for (let i = 0; i < 20; ++i) {
-            const date = new Date();
-            date.setDate(date.getDate() - i);
-            for (let j = 0; j < 10; ++j) {
-                ledgerEntries.push(<BgtAccountLedger>{
-                    id: (10 * i) + j + 1,
-                    accountId: i,
-                    paycheckId: j,
-                    timestamp: date,
-                    transaction: Math.random() * 1000
-                });
-            }
-        }
-
-        this.paychecks.next(paychecks);
-        this.accounts.next(accounts);
-        this.ledgerEntries.next(ledgerEntries);
-
-        this.paycheckRepository.getPaychecks().subscribe(p => {
-            this.paychecks.next(p);
-        });
+    refresh(): void {
+        this.accountsRepository.getAccounts().subscribe(a => this.accounts.next(a));
+        this.paycheckRepository.getPaychecks().subscribe(p => this.paychecks.next(p));
     }
 
     getPaychecks(): Observable<BgtPaycheck[]> {

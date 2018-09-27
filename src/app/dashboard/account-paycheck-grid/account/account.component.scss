@@ -1,6 +1,17 @@
+
+$well-funded-color: hsl(120, 100%, 75%);
+$low-funded-color: hsl(0, 100%, 75%);
+
+$well-funded-box-shadow: 0 0 3px 5px $well-funded-color;
+$low-funded-box-shadow: 0 0 3px 5px $low-funded-color;
+
 .account-wrapper {
+    cursor: pointer;
     padding: .75em;
-    background-color: hsl(120, 100%, 75%);
+    background-color: $well-funded-color;
+    &:hover{
+        box-shadow: $well-funded-box-shadow;
+    }
     .name {
         padding: .25em;
         font-weight: bold;
@@ -10,5 +21,8 @@
     }
 }
 .low-funds {
-    background-color: hsl(0, 100%, 75%);
+    background-color: $low-funded-color;
+    &:hover{
+        box-shadow: $low-funded-box-shadow
+    }
 }

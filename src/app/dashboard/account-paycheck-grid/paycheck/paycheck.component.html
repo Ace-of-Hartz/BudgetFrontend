@@ -1,14 +1,20 @@
-<table class="paycheck-wrapper">
-  <tr class="date-wrapper">
-    <td>Date: </td>
-    <td class="date">{{ paycheckDisplay.paydate }}</td>
-  </tr>
-  <tr class="money-wrapper">
-    <td>Money: </td>
-    <td class="money">{{ paycheckDisplay.money | currency }}</td>
-  </tr>
-  <tr class="unallocated-money-wrapper">
-    <td>Unallocated: </td>
-    <td class="unallocated-money">{{ paycheckDisplay.unallocatedMoney | currency }}</td>
-  </tr>
-</table>
+<div class="paycheck-wrapper"
+     matTooltip="Edit Paycheck"
+     matTooltipPosition="above"
+     matTooltipShowDelay="500"
+     (click)="click()">
+  <table>
+    <tr class="date-wrapper">
+      <td>Date: </td>
+      <td class="date">{{ paycheckDisplay.paydate }}</td>
+    </tr>
+    <tr class="money-wrapper">
+      <td>Money: </td>
+      <td class="money">{{ paycheckDisplay.money | currency }}</td>
+    </tr>
+    <tr class="unallocated-money-wrapper">
+      <td>Unallocated: </td>
+      <td class="unallocated-money">{{ paycheckDisplay.unallocatedMoney | currency }}</td>
+    </tr>
+  </table>
+</div>

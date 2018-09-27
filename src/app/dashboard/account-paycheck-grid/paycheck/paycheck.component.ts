@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BgtPaycheck } from 'src/app/core/models/paycheck.model';
 
 interface PaycheckDisplay {
@@ -13,11 +13,13 @@ interface PaycheckDisplay {
   templateUrl: './paycheck.component.html',
   styleUrls: ['./paycheck.component.scss']
 })
-export class PaycheckComponent implements OnInit {
+export class PaycheckComponent {
+
+  @Output() onClick: EventEmitter<number> = new EventEmitter<number>();
 
   @Input()
   set paycheck(paycheck: BgtPaycheck) {
-    console.log(paycheck);
+    this.innerPaycheck = paycheck;
     if (paycheck) {
       this.paycheckDisplay = <PaycheckDisplay>{
         paydate: new Date(paycheck.payDate).toLocaleDateString(),
@@ -30,11 +32,10 @@ export class PaycheckComponent implements OnInit {
     }
   }
 
+  innerPaycheck: BgtPaycheck;
   paycheckDisplay: PaycheckDisplay;
 
-  constructor() { }
-
-  ngOnInit() {
+  click(): void {
+    this.onClick.emit(this.innerPaycheck.id);
   }
-
 }
