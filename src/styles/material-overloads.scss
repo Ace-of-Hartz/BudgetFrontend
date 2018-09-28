@@ -1,0 +1,14 @@
+.mat-chip-remove.mat-chip-trailing-icon {
+    &:before, &:after {
+        line-height: 18px;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        vertical-align: middle;
+        display: inline-block;
+    }
+}
+
+.mat-form-field .mat-hint.mat-error {
+    color: hsl(0, 75%, 50%);
+}

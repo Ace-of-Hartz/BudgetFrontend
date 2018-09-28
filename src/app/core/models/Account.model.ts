@@ -1,4 +1,4 @@
-import { BdgTag } from "./Tag.model";
+import { BgtTag } from "./Tag.model";
 import { BgtAccountLedger } from "./AccountLedger.model";
 
 export interface BgtAccount {
@@ -7,6 +7,6 @@ export interface BgtAccount {
     money: number;
     description: string;
 
-    tags: BdgTag[];
+    tags: BgtTag[];
     ledgerEntries: BgtAccountLedger[];
 }

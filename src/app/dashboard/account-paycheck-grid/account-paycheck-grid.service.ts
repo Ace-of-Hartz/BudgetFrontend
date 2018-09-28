@@ -33,7 +33,7 @@ export class AccountPaycheckGridService {
     getAccounts(): Observable<BgtAccount[]> {
         return this.accounts.asObservable();
     }
-
+    
     getLedgerEntriesByPaycheck(paycheckId: number): Observable<BgtAccountLedger[]> {
         return this.ledgerEntries
             .asObservable()

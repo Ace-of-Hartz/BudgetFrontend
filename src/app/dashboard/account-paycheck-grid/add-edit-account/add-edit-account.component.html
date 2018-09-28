@@ -1,3 +1,39 @@
-<p>
-  {{ accountId }}
-</p>
+<div mat-dialog-title class="header">
+  <span *ngIf="!accountId">New Account</span>
+  <span *ngIf="accountId">Edit Account - {{account?.name}}</span>
+</div>
+<mat-dialog-content>
+  <div class="name-wrapper">
+    <mat-form-field class="input">
+      <input matInput placeholder="Name" [(ngModel)]="account.name" (change)="onNameChange()" required/>
+      <mat-hint class="mat-error">{{nameError}}</mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="money-wrapper">
+    <mat-form-field class="input">
+      <span matPrefix>$&nbsp;</span>
+      <input matInput placeholder="Intial Funds" [(ngModel)]="account.money" (change)="normalizeMoney()" type="number" />
+    </mat-form-field>
+  </div>
+  <div class="description-wrapper">
+    <mat-form-field class="input">
+      <textarea matInput placeholder="Description" [(ngModel)]="account.description"></textarea>
+    </mat-form-field>
+  </div>
+  <div class="tags-wrapper">
+    <mat-form-field class="input">
+      <mat-chip-list #tagsList>
+        <mat-chip *ngFor="let tag of account?.tags" [selectable]="true" [removable]="true" (removed)="removeTag(tag)">
+          <span>{{tag?.tag}}</span>
+          <span class="fa fa-times-circle" matChipRemove></span>
+        </mat-chip>
+      </mat-chip-list>
+      <input placeholder="Tags" [matChipInputFor]="tagsList" [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addTag($event)"
+        [(ngModel)]="tagInput" />
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="button-wrapper">
+  <button mat-button>Save</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>
