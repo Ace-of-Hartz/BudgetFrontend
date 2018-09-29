@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { BgtAccount } from 'src/app/core/models/Account.model';
 import { BgtTag } from 'src/app/core/models/Tag.model';
-import { NgUnsubscribe } from 'src/app/core/ng-unsubscribe';
+import { NgUnsubscribe } from '../../../core/utils/ng-unsubscribe';
 import { AccountPaycheckGridService } from '../account-paycheck-grid.service';
+import { CommonUtils } from '../../../core/utils/common.utils';
 
 class AccountDialogData {
   accountId: number
@@ -22,9 +23,13 @@ export class AddEditAccountComponent extends NgUnsubscribe implements OnInit {
   account: BgtAccount;
 
   tagInput: string;
+  nameError: string;
 
-  private accounts: Observable<BgtAccount[]>;
-  private nameError: string;
+  get valid(): boolean {
+    return this.account.name &&
+      (!this.nameError) &&
+      this.account.money != null;
+  }
 
   constructor(
     public dialogRef: MatDialogRef<AddEditAccountComponent>,
@@ -33,10 +38,11 @@ export class AddEditAccountComponent extends NgUnsubscribe implements OnInit {
   ) { super(); }
 
   ngOnInit() {
-    this.accounts = this.accountPaycheckGridService.getAccounts().pipe(takeUntil(this.ngUnsubscribe));
     this.accountId = this.data.accountId;
     if (this.accountId) {
-      this.accounts.pipe(map(aArr => aArr.find(a => a.id === this.accountId)))
+      this.accountPaycheckGridService
+        .getAccount(this.accountId)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(a => this.account = a);
     }
     else {
@@ -51,19 +57,20 @@ export class AddEditAccountComponent extends NgUnsubscribe implements OnInit {
 
   onNameChange(): void {
     if (this.account) {
-      this.accounts.pipe(take(1)).subscribe(aArr => {
-        const existingName = aArr.find(a => a.name === this.account.name);
-        if(existingName && existingName.id != this.account.id) {
-          this.nameError = `Account with name, ${this.account.name}, already exists`;
-        }
-        else { this.nameError = ''; }
-      });
+      this.accountPaycheckGridService.getAccountByName(this.account.name)
+        .pipe(take(1))
+        .subscribe(a => {
+          if (a && a.id != this.account.id) {
+            this.nameError = `Account with name, ${this.account.name}, already exists`;
+          }
+          else { this.nameError = ''; }
+        });
     }
   }
 
   normalizeMoney(): void {
     if (this.account) {
-      this.account.money = Number(this.account.money.toFixed(2));
+      this.account.money = CommonUtils.normalizeMoney(this.account.money);
     }
   }
 
@@ -72,7 +79,7 @@ export class AddEditAccountComponent extends NgUnsubscribe implements OnInit {
       this.account.tags.push(<BgtTag>{
         tag: this.tagInput
       });
-      this.account.tags = this.dedupArray(this.account.tags, 'tag');
+      this.account.tags = CommonUtils.dedupArray(this.account.tags, 'tag');
       this.tagInput = '';
     }
   }
@@ -84,14 +91,15 @@ export class AddEditAccountComponent extends NgUnsubscribe implements OnInit {
     }
   }
 
-  private dedupArray<T>(arr: T[], property?: string): T[] {
-    const retArr = [];
-    for (const item of arr) {
-      const index = property ? retArr.findIndex(e => e[property] === item[property]) : retArr.indexOf(item);
-      if (index === -1) {
-        retArr.push(item);
-      }
+  save(): void {
+    if (this.valid) {
+      let addEditAccount: Observable<any>;
+      if (!this.accountId) { addEditAccount = this.accountPaycheckGridService.saveAccount(this.account); }
+      else { addEditAccount = this.accountPaycheckGridService.editAccount(this.account); }
+      addEditAccount.subscribe(() => {
+        this.accountPaycheckGridService.refresh();
+        this.dialogRef.close();
+      });
     }
-    return retArr;
   }
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatDialogModule, MatFormFieldModule, MatInputModule, MatChipsModule } from '@angular/material';
+import { MatChipsModule, MatDatepickerModule, MatDialogModule, MatFormFieldModule, MatInputModule, MAT_DATE_LOCALE, DateAdapter, MatNativeDateModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -28,6 +28,8 @@ import { DashboardComponent } from './dashboard.component';
     MatFormFieldModule,
     MatInputModule,
     MatChipsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   entryComponents: [
     AddEditAccountComponent,

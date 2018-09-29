@@ -1,3 +1,32 @@
-<p>
-    {{ paycheckId }}
-</p>
+<div mat-dialog-title class="header">
+    <span *ngIf="!paycheckId">New Paycheck</span>
+    <span *ngIf="paycheckId">Edit Paycheck</span>
+</div>
+<mat-dialog-content>
+    <div class="paydate-wrapper">
+        <mat-form-field class="input">
+            <input matInput placeholder="Pay Date" [matDatepicker]="paydatePicker" [(ngModel)]="paycheck.payDateDate"
+                (ngModelChange)="dateChange()" required>
+            <mat-datepicker-toggle matSuffix [for]="paydatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #paydatePicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="money-wrapper">
+        <mat-form-field class="input">
+            <span matPrefix>$&nbsp;</span>
+            <input matInput placeholder="Pay" [(ngModel)]="paycheck.money" (change)="normalizeMoney()" type="number"
+                required />
+        </mat-form-field>
+    </div>
+    <div *ngIf="paycheckId" class="unallocated-money-wrapper">
+        <mat-form-field class="input">
+            <span matPrefix>$&nbsp;</span>
+            <input matInput placeholder="Unallocated" [(ngModel)]="paycheck.unallocatedMoney" (change)="normalizeMoney()"
+                type="number" required />
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="button-wrapper">
+    <button mat-button [disabled]="!valid" (click)="save()">Save</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

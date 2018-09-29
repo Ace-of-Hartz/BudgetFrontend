@@ -26,14 +26,50 @@ export class AccountPaycheckGridService {
         this.paycheckRepository.getPaychecks().subscribe(p => this.paychecks.next(p));
     }
 
+    // ===== ===== ===== ===== =====
+
     getPaychecks(): Observable<BgtPaycheck[]> {
         return this.paychecks.asObservable();
     }
 
+    getPaycheck(paycheckId: number): Observable<BgtPaycheck> {
+        return this.paychecks.pipe(map(pArr => pArr.find(p => p.id === paycheckId)));
+    }
+
+    savePaycheck(paycheck: BgtPaycheck): Observable<BgtPaycheck> {
+        return this.paycheckRepository.savePaycheck(paycheck);
+    }
+
+    editPaycheck(paycheck: BgtPaycheck): Observable<BgtPaycheck> {
+        return this.paycheckRepository.editPaycheck(paycheck);
+    }
+
+    // ===== ===== ===== ===== =====
+
     getAccounts(): Observable<BgtAccount[]> {
         return this.accounts.asObservable();
     }
-    
+
+    getAccount(accountId: number): Observable<BgtAccount> {
+        return this.accounts.pipe(map(aArr => aArr.find(a => a.id === accountId)));
+    }
+
+    getAccountByName(name: string, ignoreCase: boolean = true): Observable<BgtAccount> {
+        const compareName: string = ignoreCase ? (name || '').toLowerCase() : name;
+        return this.accounts
+            .pipe(map(aArr => aArr.find(a => (ignoreCase ? (a.name || '').toLowerCase() : a.name) === compareName)));
+    }
+
+    saveAccount(account: BgtAccount) {
+        return this.accountsRepository.saveAccount(account);
+    }
+
+    editAccount(account: BgtAccount) {
+        return this.accountsRepository.editAccount(account);
+    }
+
+    // ===== ===== ===== ===== =====
+
     getLedgerEntriesByPaycheck(paycheckId: number): Observable<BgtAccountLedger[]> {
         return this.ledgerEntries
             .asObservable()

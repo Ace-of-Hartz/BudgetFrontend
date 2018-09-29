@@ -7,10 +7,20 @@ import { Controllers, RepositoryHelper } from "./repository-helper.util";
 
 @Injectable()
 export class AccountRepository {
-    constructor(private httpClient: HttpClient){}
+    constructor(private httpClient: HttpClient) { }
 
     getAccounts(): Observable<BgtAccount[]> {
-        return this.httpClient.get(RepositoryHelper.buildUrl(Controllers.accountController, '/'))
-            .pipe(map(aArr => <BgtAccount[]>aArr));
+        return this.httpClient.get<BgtAccount[]>(
+            RepositoryHelper.buildUrl(Controllers.accountController, '/'));
+    }
+
+    saveAccount(account: BgtAccount): Observable<BgtAccount> {
+        return this.httpClient.post<BgtAccount>(
+            RepositoryHelper.buildUrl(Controllers.accountController, '/'), account);
+    }
+
+    editAccount(account: BgtAccount):Observable<BgtAccount> {
+        return this.httpClient.put<BgtAccount>(
+            RepositoryHelper.buildUrl(Controllers.accountController, `/${account.id}`), account);
     }
 }
