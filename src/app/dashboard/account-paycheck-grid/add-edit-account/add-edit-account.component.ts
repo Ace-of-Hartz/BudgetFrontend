@@ -40,9 +40,8 @@ export class AddEditAccountComponent extends NgUnsubscribe implements OnInit {
   ngOnInit() {
     this.accountId = this.data.accountId;
     if (this.accountId) {
-      this.accountPaycheckGridService
-        .getAccount(this.accountId)
-        .pipe(takeUntil(this.ngUnsubscribe))
+      this.closeOnDestroy(
+        this.accountPaycheckGridService.getAccount(this.accountId))
         .subscribe(a => this.account = a);
     }
     else {

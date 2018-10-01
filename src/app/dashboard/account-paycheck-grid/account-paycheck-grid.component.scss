@@ -59,18 +59,13 @@ $data-box-shadow:  0 0 2px 4px hsl(56, 75%, 50%);
         // overflow-y: scroll;
         .paychecks-wrapper {
             .paycheck {
-                padding: 1em;
                 width: $paycheck-column-width;
                 border-right: $header-border;
                 border-bottom: $body-border;
             }
             .account-paycheck-wrapper {
-                padding: .75em;
+                padding: 0;
                 border: $body-border;
-                &:hover {
-                    box-shadow: $data-box-shadow;
-                    cursor: pointer;
-                }
             }
         }
     }

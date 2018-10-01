@@ -52,8 +52,7 @@ export class AddEditPaycheckComponent extends NgUnsubscribe implements OnInit {
   ngOnInit() {
     this.paycheckId = this.data.paycheckId;
     if (this.paycheckId) {
-      this.accountPaycheckGridService.getPaycheck(this.paycheckId)
-        .pipe(takeUntil(this.ngUnsubscribe))
+      this.closeOnDestroy(this.accountPaycheckGridService.getPaycheck(this.paycheckId))
         .subscribe(p => this.paycheck = new BgtPaycheckDate(p));
     }
     else {
@@ -75,7 +74,6 @@ export class AddEditPaycheckComponent extends NgUnsubscribe implements OnInit {
   }
 
   dateChange(): void {
-    console.log('hello');
     if (this.paycheck) {
       this.paycheck.payDate = this.paycheck.payDateDate.getTime();
       console.log(this.paycheck);

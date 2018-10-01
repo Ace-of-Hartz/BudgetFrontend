@@ -1,0 +1,19 @@
+.header {
+    text-align: center;
+    .header-data {
+        text-align: left;
+        display: flex;
+        & div{
+            flex-grow: 1;
+        }
+    }
+    font-size: 1.25em;
+}
+
+.transactions-label {
+    font-size: 1.25em;
+}
+
+.transactions-button {
+    float: right;
+}

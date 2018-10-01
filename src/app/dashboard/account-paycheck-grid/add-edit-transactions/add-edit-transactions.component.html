@@ -1,4 +1,39 @@
-<p>
-  {{ accountId }}
-  {{ paycheckId }}
-</p>
+<div mat-dialog-title class="header">
+  <div class="sub-header">
+    <span>Transactions For</span>
+  </div>
+  <div class="header-data">
+    <div>
+      <div>Account</div>
+      <div>Paycheck On</div>
+    </div>
+    <div>
+      <div>{{ accountName | async}}</div>
+      <div>{{ paycheckDate | async | date}}</div>
+    </div>
+  </div>
+</div>
+<mat-dialog-content>
+  <div class="deposite-wrapper">
+    <mat-form-field class="input">
+      <span matPrefix>$&nbsp;</span>
+      <input matInput placeholder="Deposite" [(ngModel)]="deposite.transaction" (change)="normalizeMoney()" type="number"
+        required />
+    </mat-form-field>
+  </div>
+  <div class="withdraws-wrapper">
+    <div class="transactions-header">
+      <span class="transactions-label">Transactions:</span>
+      <button mat-button class="transactions-button" (click)="addTransaction()">
+        <span class="fa fa-plus"></span>
+        <span> Add Transaction</span>
+      </button>
+    </div>
+    <mat-form-field class="input" *ngFor="let transaction of transactions">
+      <span matPrefix>$&nbsp;</span>
+      <input matInput [(ngModel)]="transaction.transaction" (change)="normalizeMoney()" type="number" required />
+      <button matSuffix mat-icon-button class="fa fa-times-circle" matTooltip="Delete Transaction" matTooltipPosition="before"
+        matTooltipShowDelay="250" (click)="deleteTransaction(transaction)"></button>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>

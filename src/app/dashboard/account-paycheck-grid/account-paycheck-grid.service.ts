@@ -87,4 +87,14 @@ export class AccountPaycheckGridService {
             .asObservable()
             .pipe(map(ledgerEntries => ledgerEntries.filter(l => l.paycheckId === paycheckId && l.accountId === accountId)));
     }
+
+    getWidthdrawLedgerEntries(ledgerEntries: Observable<BgtAccountLedger[]>): Observable<BgtAccountLedger[]> {
+        return ledgerEntries
+            .pipe(map(leArr => leArr.filter(le => le.transaction < 0)));
+    }
+
+    getDepositeLedgerEntries(ledgerEntries: Observable<BgtAccountLedger[]>): Observable<BgtAccountLedger[]> {
+        return ledgerEntries
+            .pipe(map(leArr => leArr.filter(le => le.transaction > 0)));
+    }
 }
