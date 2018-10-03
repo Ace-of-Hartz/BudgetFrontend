@@ -76,7 +76,6 @@ export class AddEditPaycheckComponent extends NgUnsubscribe implements OnInit {
   dateChange(): void {
     if (this.paycheck) {
       this.paycheck.payDate = this.paycheck.payDateDate.getTime();
-      console.log(this.paycheck);
     }
   }
 

@@ -17,8 +17,7 @@
   <div class="deposite-wrapper">
     <mat-form-field class="input">
       <span matPrefix>$&nbsp;</span>
-      <input matInput placeholder="Deposite" [(ngModel)]="deposite.transaction" (change)="normalizeMoney()" type="number"
-        required />
+      <input matInput placeholder="Deposite" [(ngModel)]="deposite.transaction" (change)="updateDeposite()" type="number"/>
     </mat-form-field>
   </div>
   <div class="withdraws-wrapper">

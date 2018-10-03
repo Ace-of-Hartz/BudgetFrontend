@@ -53,10 +53,24 @@ export class AddEditTransactionsComponent extends NgUnsubscribe implements OnIni
       .subscribe(leArr => this.transactions = leArr);
   }
 
+  updateDeposite(): void {
+    if (this.deposite) {
+      this.deposite.transaction = CommonUtils.normalizeMoney(this.deposite.transaction);
+      let addUpdate;
+      if (this.deposite.id > 0) {
+        addUpdate = this.accountPaycheckGridService.updateDeposite(this.deposite);
+      }
+      else {
+        addUpdate = this.accountPaycheckGridService.createDeposite(this.deposite);
+      }
+      addUpdate.subscribe(() => this.accountPaycheckGridService.refresh());
+    }
+  }
+
   normalizeMoney(): void {
-    if (this.deposite) { this.deposite.transaction = CommonUtils.normalizeMoney(this.deposite.transaction); }
-    if(this.transactions) {
-      for(const ledgerEntry of this.transactions) {
+
+    if (this.transactions) {
+      for (const ledgerEntry of this.transactions) {
         ledgerEntry.transaction = CommonUtils.normalizeMoney(ledgerEntry.transaction);
       }
     }
@@ -75,17 +89,24 @@ export class AddEditTransactionsComponent extends NgUnsubscribe implements OnIni
     this.transactions.splice(transactionIndex, 1);
   }
 
-private setAggretagedTransaction() {
-  this.closeOnDestroy(
-    this.accountPaycheckGridService.getDepositeLedgerEntries(
-      this.accountPaycheckGridService.getLedgerEntriesByAccountAndPaycheck(this.paycheckId, this.accountId))
-  ).subscribe(ledgerEntries => {
-    const ledgerEntry = ledgerEntries[0];
-    if (ledgerEntry) {
-      ledgerEntry.transaction = ledgerEntries
-        .reduce((prev, current) => prev += current.transaction, 0);
-      this.deposite = ledgerEntry;
-    }
-  });
-}
+  private setAggretagedTransaction() {
+    this.closeOnDestroy(
+      this.accountPaycheckGridService.getDepositeLedgerEntries(
+        this.accountPaycheckGridService.getLedgerEntriesByAccountAndPaycheck(this.paycheckId, this.accountId)))
+      .subscribe(ledgerEntries => {
+        let ledgerEntry = ledgerEntries[0];
+        if (ledgerEntry) {
+          ledgerEntry.transaction = ledgerEntries
+            .reduce((prev, current) => prev += current.transaction, 0);
+          this.deposite = ledgerEntry;
+        }
+        else {
+          this.deposite = ledgerEntry = <BgtAccountLedger>{
+            accountId: this.accountId,
+            paycheckId: this.paycheckId,
+            description: ''
+          }
+        }
+      });
+  }
 }
