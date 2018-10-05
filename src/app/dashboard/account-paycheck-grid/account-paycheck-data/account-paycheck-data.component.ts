@@ -8,6 +8,7 @@ import { NgUnsubscribe } from 'src/app/core/utils/ng-unsubscribe';
 class PaycheckAccountDisplay {
   alocatedMoney: number;
   alocatedPercent: number;
+  withdrawnMoney: number;
 }
 
 @Component({
@@ -22,28 +23,42 @@ export class AccountPaycheckDataComponent extends NgUnsubscribe implements OnIni
 
   paycheckDisplay: PaycheckAccountDisplay = <PaycheckAccountDisplay>{
     alocatedMoney: 0,
-    alocatedPercent: 0
+    alocatedPercent: 0,
+    withdrawnMoney: 0,
   };
 
   constructor(private accountPaycheckGridService: AccountPaycheckGridService) { super(); }
 
   ngOnInit() {
-   this.setAggretagedTransaction(); 
+    this.setAggretagedDeposits();
+    this.setAggragatedWithdraws();
   }
 
-  private setAggretagedTransaction() {
+  private setAggretagedDeposits() {
     this.closeOnDestroy(
-      this.accountPaycheckGridService.getDepositeLedgerEntries(
+      this.accountPaycheckGridService.getDepositeLedgerEntriesAsync(
         this.accountPaycheckGridService.getLedgerEntriesByAccountAndPaycheck(this.paycheck.id, this.account.id))
     ).subscribe(ledgerEntries => {
       const ledgerEntry = ledgerEntries[0];
       if (ledgerEntry) {
         ledgerEntry.transaction = ledgerEntries
           .reduce((prev, current) => prev += current.transaction, 0);
-        this.paycheckDisplay = <PaycheckAccountDisplay>{
-          alocatedMoney: ledgerEntry.transaction,
-          alocatedPercent: (ledgerEntry.transaction / this.paycheck.money)
-        };
+        this.paycheckDisplay.alocatedMoney = ledgerEntry.transaction;
+        this.paycheckDisplay.alocatedPercent = (ledgerEntry.transaction / this.paycheck.money);
+      }
+    });
+  }
+
+  private setAggragatedWithdraws() {
+    this.closeOnDestroy(
+      this.accountPaycheckGridService.getWidthdrawLedgerEntriesAsync(
+        this.accountPaycheckGridService.getLedgerEntriesByAccountAndPaycheck(this.paycheck.id, this.account.id))
+    ).subscribe(ledgerEntries => {
+      const ledgerEntry = ledgerEntries[0];
+      if (ledgerEntry) {
+        ledgerEntry.transaction = ledgerEntries
+          .reduce((prev, current) => prev += current.transaction, 0);
+        this.paycheckDisplay.withdrawnMoney = ledgerEntry.transaction;
       }
     });
   }

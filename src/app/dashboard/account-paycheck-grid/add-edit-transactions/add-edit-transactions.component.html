@@ -17,22 +17,24 @@
   <div class="deposite-wrapper">
     <mat-form-field class="input">
       <span matPrefix>$&nbsp;</span>
-      <input matInput placeholder="Deposite" [(ngModel)]="deposite.transaction" (change)="updateDeposite()" type="number"/>
+      <input matInput placeholder="Deposite" [(ngModel)]="deposite.transaction" (change)="updateDeposite()" type="number" />
     </mat-form-field>
   </div>
   <div class="withdraws-wrapper">
     <div class="transactions-header">
       <span class="transactions-label">Transactions:</span>
-      <button mat-button class="transactions-button" (click)="addTransaction()">
+      <button mat-button class="transactions-button" (click)="addWithdraw()">
         <span class="fa fa-plus"></span>
         <span> Add Transaction</span>
       </button>
     </div>
-    <mat-form-field class="input" *ngFor="let transaction of transactions">
-      <span matPrefix>$&nbsp;</span>
-      <input matInput [(ngModel)]="transaction.transaction" (change)="normalizeMoney()" type="number" required />
-      <button matSuffix mat-icon-button class="fa fa-times-circle" matTooltip="Delete Transaction" matTooltipPosition="before"
-        matTooltipShowDelay="250" (click)="deleteTransaction(transaction)"></button>
-    </mat-form-field>
+    <div class="withdraws-wrapper-inputs">
+      <mat-form-field class="input" *ngFor="let transaction of transactions">
+        <span matPrefix>$&nbsp;</span>
+        <input matInput [(ngModel)]="transaction.transaction" (change)="updateWithdraw(transaction)" type="number" required />
+        <button matSuffix mat-icon-button class="fa fa-times-circle" matTooltip="Delete Transaction" matTooltipPosition="before"
+          matTooltipShowDelay="250" (click)="deleteWithdraw(transaction)"></button>
+      </mat-form-field>
+    </div>
   </div>
 </mat-dialog-content>

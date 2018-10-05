@@ -23,6 +23,7 @@ export class AccountPaycheckGridComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
+    this.accountPaycheckGridService.refresh();
     this.accounts = this.accountPaycheckGridService.getAccounts();
     this.paychecks = this.accountPaycheckGridService.getPaychecks();
   }

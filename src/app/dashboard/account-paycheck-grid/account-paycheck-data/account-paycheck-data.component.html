@@ -6,5 +6,8 @@
     <tr class="paycheck-percent-wrapper">
       <td class="paycheck-percent">{{paycheckDisplay?.alocatedPercent | percent: '1.2'}}</td>
     </tr>
+    <tr class="withdraw-wrapper">
+      <td class="withdraw">{{paycheckDisplay?.withdrawnMoney | currency}}</td>
+    </tr>
   </table>
 </div>

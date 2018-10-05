@@ -48,7 +48,7 @@ export class AddEditTransactionsComponent extends NgUnsubscribe implements OnIni
 
     this.setAggretagedTransaction();
     this.closeOnDestroy(
-      this.accountPaycheckGridService.getWidthdrawLedgerEntries(
+      this.accountPaycheckGridService.getWidthdrawLedgerEntriesAsync(
         this.accountPaycheckGridService.getLedgerEntriesByAccountAndPaycheck(this.paycheckId, this.accountId)))
       .subscribe(leArr => this.transactions = leArr);
   }
@@ -67,31 +67,41 @@ export class AddEditTransactionsComponent extends NgUnsubscribe implements OnIni
     }
   }
 
-  normalizeMoney(): void {
-
-    if (this.transactions) {
-      for (const ledgerEntry of this.transactions) {
-        ledgerEntry.transaction = CommonUtils.normalizeMoney(ledgerEntry.transaction);
-      }
-    }
-  }
-
-  addTransaction(): void {
-    this.transactions.push(<BgtAccountLedger>{
+  addWithdraw(): void {
+    this.transactions.splice(0, 0, <BgtAccountLedger>{
       accountId: this.accountId,
       paycheckId: this.paycheckId,
-      transaction: 0,
+      transaction: 0
     });
   }
 
-  deleteTransaction(transaction: BgtAccountLedger) {
-    const transactionIndex = this.transactions.indexOf(transaction);
-    this.transactions.splice(transactionIndex, 1);
+  updateWithdraw(withdraw: BgtAccountLedger): void {
+    CommonUtils.normalizeMoney(withdraw.transaction);
+    let addUpdate;
+    if (withdraw.id > 0) {
+      addUpdate = this.accountPaycheckGridService.updateWithdraw(withdraw);
+    }
+    else {
+      addUpdate = this.accountPaycheckGridService.createWithdraw(withdraw);
+    }
+    addUpdate.subscribe(() => this.accountPaycheckGridService.refresh());
+  }
+
+  deleteWithdraw(withdraw: BgtAccountLedger) {
+    this.accountPaycheckGridService.deleteTransaction(withdraw)
+      .subscribe(() => {
+        this.accountPaycheckGridService.refresh();
+        const index = this.transactions.indexOf(withdraw);
+        if (index >= 0) {
+          this.transactions.splice(index, 1);
+          this.transactions = this.transactions.map(t => t);
+        }
+      });
   }
 
   private setAggretagedTransaction() {
     this.closeOnDestroy(
-      this.accountPaycheckGridService.getDepositeLedgerEntries(
+      this.accountPaycheckGridService.getDepositeLedgerEntriesAsync(
         this.accountPaycheckGridService.getLedgerEntriesByAccountAndPaycheck(this.paycheckId, this.accountId)))
       .subscribe(ledgerEntries => {
         let ledgerEntry = ledgerEntries[0];
@@ -104,7 +114,6 @@ export class AddEditTransactionsComponent extends NgUnsubscribe implements OnIni
           this.deposite = ledgerEntry = <BgtAccountLedger>{
             accountId: this.accountId,
             paycheckId: this.paycheckId,
-            description: ''
           }
         }
       });
