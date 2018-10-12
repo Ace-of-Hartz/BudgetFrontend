@@ -82,6 +82,10 @@ export class AccountPaycheckGridService {
         return this.accountsRepository.editAccount(account);
     }
 
+    deleteAccount(accountId: number) {
+        return this.accountsRepository.deleteAccount(accountId);
+    }
+
     // ===== ===== ===== ===== =====
 
     getLedgerEntriesByAccount(accountId: number): Observable<BgtAccountLedger[]> {

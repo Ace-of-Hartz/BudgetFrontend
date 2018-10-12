@@ -15,6 +15,7 @@ import { AddEditPaycheckComponent } from './account-paycheck-grid/add-edit-paych
 import { AddEditTransactionsComponent } from './account-paycheck-grid/add-edit-transactions/add-edit-transactions.component';
 import { PaycheckComponent } from './account-paycheck-grid/paycheck/paycheck.component';
 import { DashboardComponent } from './dashboard.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { DashboardComponent } from './dashboard.component';
     MatChipsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    SharedModule,
   ],
   entryComponents: [
     AddEditAccountComponent,

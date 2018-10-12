@@ -36,5 +36,6 @@
 </mat-dialog-content>
 <mat-dialog-actions class="button-wrapper">
   <button mat-button [disabled]="!valid" (click)="save()">Save</button>
+  <button *ngIf="accountId" mat-button (click)="delete()" color="warn">Delete</button>
   <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

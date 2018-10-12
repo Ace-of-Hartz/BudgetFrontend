@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { BgtAccount } from 'src/app/core/models/Account.model';
@@ -7,6 +7,7 @@ import { BgtTag } from 'src/app/core/models/Tag.model';
 import { NgUnsubscribe } from '../../../core/utils/ng-unsubscribe';
 import { AccountPaycheckGridService } from '../account-paycheck-grid.service';
 import { CommonUtils } from '../../../core/utils/common.utils';
+import { BgtConfirmationDialogComponent } from 'src/app/shared/bgt-confirmation-dialog/bgt-confirmation-dialog.component';
 
 class AccountDialogData {
   accountId: number
@@ -34,7 +35,8 @@ export class AddEditAccountComponent extends NgUnsubscribe implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddEditAccountComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AccountDialogData,
-    private accountPaycheckGridService: AccountPaycheckGridService
+    private accountPaycheckGridService: AccountPaycheckGridService,
+    private dialog: MatDialog
   ) { super(); }
 
   ngOnInit() {
@@ -100,5 +102,22 @@ export class AddEditAccountComponent extends NgUnsubscribe implements OnInit {
         this.dialogRef.close();
       });
     }
+  }
+
+  delete(): void {
+    const deleteDialog = this.dialog.open(BgtConfirmationDialogComponent, {
+      width: '250px',
+      data: {
+        title: `Delete Account, ${this.account.name}?`,
+        message: '',
+      },
+
+    });
+    deleteDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.accountPaycheckGridService.deleteAccount(this.accountId)
+          .subscribe(() => this.accountPaycheckGridService.refresh())
+      }
+    });
   }
 }

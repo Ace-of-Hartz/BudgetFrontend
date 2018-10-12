@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { map } from "rxjs/internal/operators/map";
 import { BgtAccount } from "../models/Account.model";
 import { Controllers, RepositoryHelper } from "./repository-helper.util";
 
@@ -19,8 +18,13 @@ export class AccountRepository {
             RepositoryHelper.buildUrl(Controllers.accountController, '/'), account);
     }
 
-    editAccount(account: BgtAccount):Observable<BgtAccount> {
+    editAccount(account: BgtAccount): Observable<BgtAccount> {
         return this.httpClient.put<BgtAccount>(
             RepositoryHelper.buildUrl(Controllers.accountController, `/${account.id}`), account);
+    }
+
+    deleteAccount(accountId: number): Observable<void> {
+        return this.httpClient.delete<void>(
+            RepositoryHelper.buildUrl(Controllers.accountController, `${accountId}`));
     }
 }
